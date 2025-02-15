@@ -70,10 +70,7 @@ jobs:
     - name: Deploy files (do not overwrite volumes directory to preserve state)
       run: >
         ssh srv '
-        if [ -d ${{ github.event.repository.name }}/volumes ];
-        then rsync -avh --exclude=".[!.]*" * srv:/root/${{ github.event.repository.name }};
-        else rsync -avh --exclude="volumes/" --exclude=".[!.]*" * srv:/root/${{ github.event.repository.name }};
-        fi
+        rsync -avh --exclude="volumes/" --exclude=".[!.]*" * srv:/root/${{ github.event.repository.name }};
         '
 
     - name: Create .env file
