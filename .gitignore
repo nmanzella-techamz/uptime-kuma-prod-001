@@ -1,4 +1,5 @@
-volumes/
+volumes/tailscale-uptime-kuma/state/
+volumes/uptime-kuma/
 # Custom
 example*
 *.code-workspace
