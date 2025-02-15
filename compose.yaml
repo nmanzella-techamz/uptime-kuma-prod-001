@@ -11,6 +11,9 @@ services:
       - TS_HOSTNAME=uptime-kuma
       - TS_SERVE_CONFIG=/config/serve-config.json
       - TS_ENABLE_HEALTH_CHECK=true
+      - TS_LOCAL_ADDR_PORT=127.0.0.1:9002
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:9002/healthz"]
     volumes:
       - ./volumes/tailscale-uptime-kuma/state:/var/lib/tailscale
       - ./volumes/tailscale-uptime-kuma/config:/config
