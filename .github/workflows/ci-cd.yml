@@ -9,19 +9,16 @@ on:
 
 jobs:
 
-  docker-check-health:
-    name: Docker health check
+  checkout-to-runner:
+    name: Checkout to runner
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
 
-    - name: Build the Docker image
-      run: docker compose up --detach --wait --wait-timeout 120
-
   deploy:
     name: Deploy to production
     runs-on: ubuntu-latest
-    needs: docker-check-health
+    needs: checkout-to-runner
     steps:
     - uses: actions/checkout@v4
 
