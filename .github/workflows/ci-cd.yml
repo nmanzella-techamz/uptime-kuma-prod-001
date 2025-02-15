@@ -40,7 +40,7 @@ jobs:
           HostName $SSH_HOST
           User $SSH_USER
           IdentityFile ~/.ssh/srv.key
-          StrictHostKeyChecking no
+          StrictHostKeyChecking yes
         END
       env:
         SSH_USER: ${{ secrets.USERNAME }}
@@ -65,10 +65,7 @@ jobs:
         '
 
     - name: Deploy files (do not overwrite volumes directory to preserve state)
-      run: >
-        ssh srv '
-        rsync -avh --exclude="volumes/" --exclude=".[!.]*" * srv:/root/${{ github.event.repository.name }};
-        '
+      run: rsync -avh --exclude="volumes/" --exclude=".[!.]*" * srv:/root/${{ github.event.repository.name }}
 
     - name: Create .env file
       run: >
