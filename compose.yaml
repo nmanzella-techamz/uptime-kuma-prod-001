@@ -10,6 +10,7 @@ services:
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_HOSTNAME=uptime-kuma
       - TS_SERVE_CONFIG=/config/serve-config.json
+      - TS_ENABLE_HEALTH_CHECK=true
     volumes:
       - ./volumes/tailscale-uptime-kuma/state:/var/lib/tailscale
       - ./volumes/tailscale-uptime-kuma/config:/config
