@@ -65,7 +65,7 @@ jobs:
         '
 
     - name: Deploy files (do not overwrite volumes directory to preserve state)
-      run: rsync -avh --exclude="volumes/" --exclude=".[!.]*" * srv:/root/${{ github.event.repository.name }}
+      run: rsync -avh --exclude="volumes/tailscale-uptime-kuma/state/" --exclude="volumes/uptime-kuma/"  --exclude=".[!.]*" * srv:/root/${{ github.event.repository.name }}
 
     - name: Create .env file
       run: >
@@ -76,8 +76,8 @@ jobs:
     - name: Remove old Docker image
       run: >
         ssh srv '
-        docker image rm tailscale-uptime-kuma
-        docker image rm uptime-kuma
+        docker image rm tailscale-uptime-kuma;
+        docker image rm uptime-kuma;
         '
 
     - name: Always bring up container on server

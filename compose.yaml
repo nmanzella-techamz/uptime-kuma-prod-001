@@ -6,7 +6,7 @@ services:
     hostname: uptime-kuma
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}
-      - "TS_EXTRA_ARGS=--advertise-tags=tag:monitoring --reset"
+      - "TS_EXTRA_ARGS=--advertise-tags=tag:monitoring --accept-routes --reset"
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_HOSTNAME=uptime-kuma
       - TS_SERVE_CONFIG=/config/serve-config.json
@@ -17,6 +17,8 @@ services:
     volumes:
       - ./volumes/tailscale-uptime-kuma/state:/var/lib/tailscale
       - ./volumes/tailscale-uptime-kuma/config:/config
+    networks:
+      - ts-uptime-kuma
     devices:
       - /dev/net/tun:/dev/net/tun
     cap_add:
@@ -30,3 +32,14 @@ services:
       - ./volumes/uptime-kuma/data:/app/data
     network_mode: service:tailscale-uptime-kuma
     restart: always
+
+# Required to enable IPv6 to support. 
+# Prerequisite for Tailscale 4via6 subnet routing to work.
+networks:
+  ts-uptime-kuma:
+    driver: bridge
+    enable_ipv6: true
+    ipam:
+      driver: default
+      config:
+        - subnet: "fd00:2::/64"
